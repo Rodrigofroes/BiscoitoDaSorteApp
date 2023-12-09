@@ -1,30 +1,57 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
 
 function App(){
-  const [nome, setNome] = useState('');
-  const [input, setInput] = useState('');
+  const [img, setImg] = useState(require('./src/biscoito.png'));
+  const [frase, setFrase] = useState('');
 
-  function entrar(){
-    setNome(input);
+  let frases = [
+    "Siga os bons e aprenda com eles.",
+    "O bom-senso vale mais do que muito conhecimento.",
+    "O riso é a menor distância entre duas pessoas.",
+    "Deixe de lado as preocupações e seja feliz.",
+    "Realize o óbvio, pense no improvável e conquiste o impossível.",
+    "Acredite em milagres, mas não dependa deles.",
+    "A maior barreira para o sucesso é o medo do fracasso."
+  ]
+
+  function quebraBiscoito(){
+    // Gerando numero aleatorio inteiros combase ao tamanho do array
+    let numeroAleatorio = Math.floor(Math.random() * frases.length)
+    // Passando a frases como paramentro. Ex: NumeiroAleatorio = 1; frases: "O bom-senso vale mais do que muito conhecimento."
+    setFrase('"' + frases[numeroAleatorio] +'" ')
+    setImg(require('./src/biscoitoAberto.png'))
+  }
+
+  function reiniciar(){
+    setImg(require('./src/biscoito.png'));
+    setFrase('');
   }
 
   return(
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite seu nome"
-        onChangeText={(text)=> setInput(text)}
+
+      <Image
+        source={img}
+        style={styles.img}
       />
 
-      <Button
-        title="Entrar"
-        onPress={entrar}
-      />
+      <Text style={styles.textofrase}>{frase}</Text>
 
-      <Text style={styles.texto}>
-        {nome}
-      </Text>
+      {/* Opção de button para estilizar */}
+      <TouchableOpacity style={styles.botao} onPress={quebraBiscoito}>
+        <View style={styles.btnArea}>
+          <Text style={styles.btnTexto}>Quebrar Biscoito</Text>
+        </View>
+      </TouchableOpacity>
+
+      {/* Opção de button para estilizar */}
+      <TouchableOpacity style={[styles.botao, {marginTop: 10, borderColor: '#121212'}]} onPress={reiniciar}>
+        <View style={styles.btnArea}>
+          <Text style={[styles.btnTexto, {color: '#121212'}]}>Reiniciar Biscoito</Text>
+        </View>
+      </TouchableOpacity>
+
     </View>
   );
 }
@@ -32,19 +59,36 @@ function App(){
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  input:{
-    height: 45,
-    width: 250,
-    borderWidth: .3,
-    margin: 10, 
-    padding: 10,
-    fontSize:20
+  img:{
+    width: 230,
+    height: 230
   },
-  texto:{
-    fontSize: 20
+  textofrase:{
+    fontSize:20,
+    color: '#dd7b22',
+    margin: 30,
+    fontStyle: 'italic',
+    textAlign: 'center'
+  },
+  botao:{
+    width: 230,
+    height: 50,
+    borderColor: '#dd7b22',
+    borderWidth: 2,
+    borderRadius: 25
+  },
+  btnArea:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  btnTexto:{
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#dd7b22'
   }
 });
 
